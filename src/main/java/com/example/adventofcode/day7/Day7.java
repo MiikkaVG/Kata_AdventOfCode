@@ -22,13 +22,7 @@ public class Day7 {
 
     public Integer solution1(List<TerminalCommand> commands) {
         // TODO: write solution to part1 of the problem here, create additional classes if you want
-        for(var command: commands) {
-            System.out.println(command.getCommandType().name());
-
-            for(var entry: command.getData()) {
-                System.out.println("\tDATA: "+entry);
-            }
-        }
+        
         return 1;
     }
 
@@ -37,6 +31,4 @@ public class Day7 {
 
         return 1;
     }
-
-
 }
