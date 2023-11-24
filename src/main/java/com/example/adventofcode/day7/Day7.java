@@ -22,7 +22,7 @@ public class Day7 {
 
     public Integer solution1(List<TerminalCommand> commands) {
         // TODO: write solution to part1 of the problem here, create additional classes if you want
-        
+
         return 1;
     }
 

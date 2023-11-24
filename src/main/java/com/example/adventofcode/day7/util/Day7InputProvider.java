@@ -2,29 +2,27 @@ package com.example.adventofcode.day7.util;
 
 import com.example.adventofcode.day7.domain.TerminalCommand;
 import com.example.adventofcode.day7.domain.TerminalCommandType;
+import com.example.adventofcode.util.ResourceReader;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
-import org.springframework.util.FileCopyUtils;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.UncheckedIOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-
 @Component
+@RequiredArgsConstructor
 public class Day7InputProvider {
+    private final ResourceReader resourceReader;
+
     @Value("${classpath:/input/day7/input.txt}")
     private Resource inputResource;
 
     public List<TerminalCommand> getInput() {
-        String inputString = readInputToString();
+        String inputString = resourceReader.readInputToString(inputResource);
 
         return Arrays.stream(inputString
                 .split(Pattern.quote("$")))
@@ -62,13 +60,5 @@ public class Day7InputProvider {
         List<String> data = List.of(commandString.split(" ")[1]);
 
         return new TerminalCommand(TerminalCommandType.CHANGE_DIR, data);
-    }
-
-    private String readInputToString() {
-        try (Reader reader = new InputStreamReader(inputResource.getInputStream(), UTF_8)) {
-            return FileCopyUtils.copyToString(reader);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
     }
 }
