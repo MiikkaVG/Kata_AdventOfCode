@@ -1,8 +1,13 @@
 package com.example.adventofcode.day2;
 
+import com.example.adventofcode.day2.domain.Round;
 import com.example.adventofcode.day2.util.Day2InputProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 @Component
@@ -10,23 +15,100 @@ public class Day2 {
     @Autowired
     private Day2InputProvider inputProvider;
 
-    public Integer runSolution1() {
+    @Autowired
+    private InputToRoundFomatter inputToRoundFomatter;
+
+    private Map<String, String> winningCombinations = new HashMap<>();
+    private Map<String, String> drawCombinations = new HashMap<>();
+    private Map<String, Integer> scoresByMove = new HashMap<>();
+
+    public Day2(Day2InputProvider inputProvider, InputToRoundFomatter inputToRoundFomatter) {
+        this.inputProvider = inputProvider;
+        this.inputToRoundFomatter = inputToRoundFomatter;
+
+        // a = ROCK, y = PAPER
+        winningCombinations.put("A", "Y");
+        // b = PAPER, z = SCISSORS
+        winningCombinations.put("B", "Z");
+        // c = SCISSORS, x = rock
+        winningCombinations.put("C", "X");
+
+        drawCombinations.put("A", "X");
+        drawCombinations.put("B", "Y");
+        drawCombinations.put("C", "Z");
+
+        scoresByMove.put("X", 1);
+        scoresByMove.put("Y", 2);
+        scoresByMove.put("Z", 3);
+    }
+
+    public int runSolution1() {
         return solution1(inputProvider.getInput());
     }
-    public Integer runSolution2() {
+
+    public int runSolution2() {
         return solution2(inputProvider.getInput());
     }
 
+    private int solution1(String input) {
+        List<Round> rounds = inputToRoundFomatter.mapToRounds(input);
 
-    private Integer solution1(String input) {
-        // TODO: write solution to part1 of the problem here, create additional classes if you want
-        System.out.println(input);
-        return 1;
+        int total = 0;
+
+        for (Round round : rounds) {
+            boolean win = winningCombinations.get(round.getOpponent()).equals(round.getYours());
+            int choicePoints = scoresByMove.get(round.getYours());
+            total += choicePoints;
+
+            if (win) {
+                total += 6;
+            } else if (drawCombinations.get(round.getOpponent()).equals(round.getYours())) {
+                total += 3;
+            }
+        }
+
+        return total;
     }
 
-    private Integer solution2(String input) {
+    private int solution2(String input) {
         // TODO: write solution to part2 of the problem here, create additional classes if you want
+        var rounds = inputToRoundFomatter.mapToRounds(input);
+        var combos = getCombinations();
 
-        return 1;
+
+        int total = 0;
+        for (Round round : rounds) {
+            System.out.println(round.getOpponent());
+           total += combos.get(round.getOpponent()).get(round.getYours());
+        }
+        return total;
+//        return rounds.stream()
+//                .map(round -> )
+//                .reduce(0, Integer::sum);
+    }
+
+    private Map<String, Map<String, Integer>> getCombinations() {
+        Map<String, Map<String, Integer>> combinations = new HashMap<>();
+
+        var rock = new HashMap<String, Integer>();
+        rock.put("X", 3);
+        rock.put("Y", 1 + 3);
+        rock.put("Z", 2 + 6);
+
+        var paper = new HashMap<String, Integer>();
+        paper.put("X", 1);
+        paper.put("Y", 2 + 3);
+        paper.put("Z", 3 + 6);
+
+        var scissors = new HashMap<String, Integer>();
+        scissors.put("X", 2);
+        scissors.put("Y", 3 + 3);
+        scissors.put("Z", 1 + 6);
+
+        combinations.put("A", rock);
+        combinations.put("B", paper);
+        combinations.put("C", scissors);
+
+        return combinations;
     }
 }

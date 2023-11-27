@@ -16,7 +16,6 @@ public class Day2InputProvider {
     private ResourceReader resourceReader;
 
     public String getInput() {
-        System.out.println(resourceReader.readInputToString(inputResource));
         return resourceReader.readInputToString(inputResource);
     }
 }
