@@ -50,7 +50,7 @@ public class Day7InputProvider {
     private TerminalCommand getListContentsCommand(String commandString) {
         commandString = commandString.replace("ls\n", "");
         List<String> data = Arrays.stream(commandString.split("\n"))
-                .filter(i -> i.length() > 0)
+                .filter(i -> !i.isEmpty())
                 .toList();
 
         return new TerminalCommand(TerminalCommandType.LIST_CONTENTS, data);

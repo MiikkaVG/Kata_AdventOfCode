@@ -3,7 +3,7 @@ package com.example.adventofcode.day7.domain;
 public enum TerminalCommandType {
     CHANGE_DIR("cd"), LIST_CONTENTS("ls");
 
-    private String commandString;
+    private final String commandString;
 
     TerminalCommandType(String commandString) {
         this.commandString = commandString;
