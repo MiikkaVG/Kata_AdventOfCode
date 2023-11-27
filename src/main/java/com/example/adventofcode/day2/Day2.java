@@ -18,28 +18,9 @@ public class Day2 {
     @Autowired
     private InputToRoundFomatter inputToRoundFomatter;
 
-    private Map<String, String> winningCombinations = new HashMap<>();
-    private Map<String, String> drawCombinations = new HashMap<>();
-    private Map<String, Integer> scoresByMove = new HashMap<>();
-
     public Day2(Day2InputProvider inputProvider, InputToRoundFomatter inputToRoundFomatter) {
         this.inputProvider = inputProvider;
         this.inputToRoundFomatter = inputToRoundFomatter;
-
-        // a = ROCK, y = PAPER
-        winningCombinations.put("A", "Y");
-        // b = PAPER, z = SCISSORS
-        winningCombinations.put("B", "Z");
-        // c = SCISSORS, x = rock
-        winningCombinations.put("C", "X");
-
-        drawCombinations.put("A", "X");
-        drawCombinations.put("B", "Y");
-        drawCombinations.put("C", "Z");
-
-        scoresByMove.put("X", 1);
-        scoresByMove.put("Y", 2);
-        scoresByMove.put("Z", 3);
     }
 
     public int runSolution1() {
@@ -51,6 +32,10 @@ public class Day2 {
     }
 
     private int solution1(String input) {
+         Map<String, String> winningCombinations = getWinningCombinations();
+         Map<String, String> drawCombinations = getDrawCombinations();
+         Map<String, Integer> scoresByMove = getScoresByMove();
+
         List<Round> rounds = inputToRoundFomatter.mapToRounds(input);
 
         int total = 0;
@@ -70,11 +55,37 @@ public class Day2 {
         return total;
     }
 
+    private Map<String, String> getWinningCombinations() {
+        HashMap<String, String> winningCombinations = new HashMap<>();
+        // a = ROCK, y = PAPER
+        winningCombinations.put("A", "Y");
+        // b = PAPER, z = SCISSORS
+        winningCombinations.put("B", "Z");
+        // c = SCISSORS, x = rock
+        winningCombinations.put("C", "X");
+        return winningCombinations;
+    }
+
+    private Map<String, String> getDrawCombinations() {
+        HashMap<String, String> drawCombinations = new HashMap<>();
+        drawCombinations.put("A", "X");
+        drawCombinations.put("B", "Y");
+        drawCombinations.put("C", "Z");
+        return drawCombinations;
+    }
+
+    private Map<String, Integer> getScoresByMove() {
+        Map<String, Integer> scoresByMove = new HashMap<>();
+        scoresByMove.put("X", 1);
+        scoresByMove.put("Y", 2);
+        scoresByMove.put("Z", 3);
+        return scoresByMove;
+    }
+
     private int solution2(String input) {
         // TODO: write solution to part2 of the problem here, create additional classes if you want
         var rounds = inputToRoundFomatter.mapToRounds(input);
         var combos = getCombinations();
-
 
         int total = 0;
         for (Round round : rounds) {
