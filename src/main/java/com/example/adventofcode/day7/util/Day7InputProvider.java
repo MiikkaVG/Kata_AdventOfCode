@@ -3,7 +3,7 @@ package com.example.adventofcode.day7.util;
 import com.example.adventofcode.day7.domain.TerminalCommand;
 import com.example.adventofcode.day7.domain.TerminalCommandType;
 import com.example.adventofcode.util.ResourceReader;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
@@ -14,9 +14,9 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Component
-@RequiredArgsConstructor
 public class Day7InputProvider {
-    private final ResourceReader resourceReader;
+    @Autowired
+    private ResourceReader resourceReader;
 
     @Value("${classpath:/input/day7/input.txt}")
     private Resource inputResource;

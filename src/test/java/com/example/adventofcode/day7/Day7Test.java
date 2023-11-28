@@ -14,7 +14,6 @@ public class Day7Test {
     @Autowired
     private Day7 day7;
 
-
     @Test
     void solution1() {
         assertThat(day7.runSolution1()).isEqualTo(SOLUTION_1);
